@@ -1,1 +1,1 @@
-from .SeismoTools import SAC2JSON
+from .SeismoTools import SAC2JSON, SAC3JSON

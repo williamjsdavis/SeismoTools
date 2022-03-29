@@ -11,6 +11,35 @@ def SAC2JSON(filename_in, filename_out):
     #new_filename = filename + '.json'
     with open(filename_out, 'w') as f:
         json.dump(data, f, indent=4)
+        
+def SAC3JSON(filenames_in, filename_out):
+    assert len(filenames_in) == 3
+    body0, metadata0_small = get_data(filenames_in[0])
+    body1, metadata1_small = get_data(filenames_in[1])
+    body2, metadata2_small = get_data(filenames_in[2])
+    
+    body = {
+        'body0' : {
+            'component' : metadata0_small.pop('component'),
+            'body' : body0,
+        },
+        'body1' : {
+            'component' : metadata1_small.pop('component'),
+            'body' : body1,
+        },
+        'body2' : {
+            'component' : metadata2_small.pop('component'),
+            'body' : body2,
+        },
+    }
+    
+    data = {
+        'header' : metadata0_small,
+        'body' : body
+    }
+    
+    with open(filename_out, 'w') as f:
+        json.dump(data, f, indent=4)
 
 def get_data(filename):
     with open(filename, mode='rb') as f:
