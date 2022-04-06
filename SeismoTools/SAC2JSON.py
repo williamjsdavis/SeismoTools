@@ -83,5 +83,3 @@ def get_data(filename):
     }
     return body, metadata_small
 
-if '__name__' == '__main__':
-    print('Done')

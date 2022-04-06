@@ -144,5 +144,3 @@ def parse_inversion_source_type(raw_line_string):
     }
     return data
 
-if '__name__' == '__main__':
-    print('Done')
