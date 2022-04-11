@@ -29,6 +29,8 @@ def parse_lines(raw_lines):
 
 def irange(istart, iend):
     return slice(istart-1,iend)
+
+# Lines parsing
 def parse_line1(raw_line):
     data = {
         'hypocenter_reference_catalog' : raw_line[irange(1,4)],
@@ -40,20 +42,21 @@ def parse_line1(raw_line):
         'magnitudes' : raw_line[irange(49,55)],
         'location' : raw_line[irange(57,80)],
     }
+    data = {k: v.strip() for k, v in data.items()}
     return data
 def parse_line2(raw_line):
     data = {
-        'CMT_event_name' : raw_line[irange(1,16)],
+        'CMT_event_name' : raw_line[irange(1,16)].strip(),
         'inversion_info' : parse_inversion_info(raw_line[irange(18,61)]),
-        'inversion_source_type' : raw_line[irange(63,68)],
+        'inversion_source_type' : raw_line[irange(63,68)].strip(),
         'moment_rate_function' : parse_inversion_source_type(raw_line[irange(70,80)]),
     }
     return data
 def parse_line3(raw_line):
     data = {
-        'centroid_parameters' : raw_line[irange(1,58)],
-        'depth_type' : raw_line[irange(60,63)],
-        'timestamp' : raw_line[irange(66,80)],
+        'centroid_parameters' : parse_centroid(raw_line[irange(1,58)]),
+        'depth_type' : parse_depth_type(raw_line[irange(60,63)]),
+        'timestamp' : parse_timestamp(raw_line[irange(65,80)]),
     }
     return data
 def parse_line4(raw_line):
@@ -71,6 +74,7 @@ def parse_line5(raw_line):
     }
     return data
 
+# Line 2 parsing
 def parse_inversion_info(raw_line_string):
     data = {
         'B_data' : parse_inversion_info_B(raw_line_string),
@@ -142,6 +146,56 @@ def parse_inversion_source_type(raw_line_string):
     data = {
         'type' : type_string,
         'value' : value_string,
+    }
+    data = {k: v.strip() for k, v in data.items()}
+    return data
+
+# Line 3 parsing
+def parse_centroid(raw_line_string):
+    raw_line_string_split = raw_line_string.split()
+    centroid_time = {
+        'value' : raw_line_string_split[1],
+        'standard_error' : raw_line_string_split[2],
+    }
+    centroid_latitude = {
+        'value' : raw_line_string_split[3],
+        'standard_error' : raw_line_string_split[4],
+    }
+    centroid_longitude = {
+        'value' : raw_line_string_split[5],
+        'standard_error' : raw_line_string_split[6],
+    }
+    centroid_depth = {
+        'value' : raw_line_string_split[7],
+        'standard_error' : raw_line_string_split[8],
+    }
+    data = {
+        'time' : centroid_time,
+        'latitude' : centroid_latitude,
+        'longitude' : centroid_longitude,
+        'depth' : centroid_depth,
+    }
+    return data
+def parse_depth_type(raw_line_string):
+    if 'FREE' in raw_line_string:
+        depth_type = 'free'
+    elif 'FIX' in raw_line_string:
+        depth_type = 'fixed'
+    elif 'BDY' in raw_line_string:
+        depth_type = 'modelled'
+    else: 
+        depth_type = 'unknown'
+    return depth_type
+def parse_timestamp(raw_line_string):
+    if 'Q-' in raw_line_string:
+        CMT_type = 'quick'
+    elif 'S-' in raw_line_string:
+        CMT_type = 'standard'
+    else: 
+        CMT_type = 'unknown'
+    data = {
+        'CMT_type' : CMT_type,
+        'Timestamp' : raw_line_string.strip(),
     }
     return data
 
