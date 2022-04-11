@@ -3,6 +3,7 @@ import json
 def NDK2JSON(filename_in, i, filename_out):
     
     filelines = get_NDK_lines(filename_in)
+    n_events = len(filelines) // 5
     raw_events = [filelines[(j*5):((j*5)+5)] for j in range(n_events)]
     data = parse_lines(raw_events[i])
     
