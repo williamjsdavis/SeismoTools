@@ -83,3 +83,12 @@ def get_data(filename):
     }
     return body, metadata_small
 
+if __name__ == "__main__":
+    import sys
+
+    filename = str(sys.argv[1])
+
+    new_filename = filename.replace('.','_') + ".json"
+    
+    SAC2JSON(filename, new_filename)
+    print("Success!")
