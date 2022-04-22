@@ -1,14 +1,32 @@
 import json
 
+def NDK2JSON_list(filename_in, i_range, filename_out):
+    ndk_list = []
+    for i in i_range:
+        ndk_data = make_ndk_data(filename_in, i)
+        ndk_list.append(ndk_data)
+        
+    # Convert to JSON
+    #data_json = json.dumps(ndk_list, indent = 4)
+    with open(filename_out, 'w') as outfile:
+        #outfile.write(data_json)
+        json.dump(ndk_list, outfile, indent=4)
+
+    return ndk_list
+
 def NDK2JSON(filename_in, i, filename_out):
     
+    ndk_data = make_ndk_data(filename_in, i)
+    
+    with open(filename_out, 'w') as f:
+        json.dump(ndk_data, f, indent=4)
+    return ndk_data
+
+def make_ndk_data(filename_in, i):
     filelines = get_NDK_lines(filename_in)
     n_events = len(filelines) // 5
     raw_events = [filelines[(j*5):((j*5)+5)] for j in range(n_events)]
     data = parse_lines(raw_events[i])
-    
-    with open(filename_out, 'w') as f:
-        json.dump(data, f, indent=4)
     return data
         
 def get_NDK_lines(filename_in):
