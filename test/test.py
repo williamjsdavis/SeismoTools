@@ -17,14 +17,17 @@ def load_binary(filename):
 def remove_file(new_filename):
     if os.path.isfile(new_filename):
         os.remove(new_filename)
+def make_json_name(filename):
+    filename_split = os.path.splitext(filename)
+    return filename_split[0] + '.json'
+
 
 ## Testing SAC
 filename_sac1 = './test/SAC/sac_example_BHE.SAC'
 filename_sac2 = './test/SAC/sac_example_BHN.SAC'
 filename_sac3 = './test/SAC/sac_example_BHZ.SAC'
-filename_sac_split = os.path.splitext(filename_sac3)
 filename_sac3_json_reference = './test/json/sac_example_BHZ.json'
-filename_sac3_json_output = filename_sac_split[0] + '.json'
+filename_sac3_json_output = make_json_name(filename_sac3)
 
 class TestSACFunctionExist(unittest.TestCase):
     def test_SAC2JSON(self):
@@ -58,9 +61,8 @@ class TestSAC2JSON(unittest.TestCase):
 
 ## Testing NDK
 filename_ndk = './test/NDK/ndk_example.txt'
-filename_ndk_split = os.path.splitext(filename_ndk)
 filename_ndk_json_reference = './test/json/ndk_reference.json'
-filename_ndk_json_output = filename_ndk_split[0] + '.json'
+filename_ndk_json_output = make_json_name(filename_ndk)
 
 class TestNDKFunctionExist(unittest.TestCase):
     def test_NDK2JSON(self):
