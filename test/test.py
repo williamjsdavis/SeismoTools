@@ -26,9 +26,12 @@ def make_json_name(filename):
 filename_sac1 = './test/SAC/sac_example_BHE.SAC'
 filename_sac2 = './test/SAC/sac_example_BHN.SAC'
 filename_sac3 = './test/SAC/sac_example_BHZ.SAC'
+filename_sac1_json_reference = './test/json/sac_example_BHE.json'
+filename_sac1_json_output = make_json_name(filename_sac1)
+filename_sac2_json_reference = './test/json/sac_example_BHN.json'
+filename_sac2_json_output = make_json_name(filename_sac2)
 filename_sac3_json_reference = './test/json/sac_example_BHZ.json'
 filename_sac3_json_output = make_json_name(filename_sac3)
-
 class TestSACFunctionExist(unittest.TestCase):
     def test_SAC2JSON(self):
         with self.assertRaises(TypeError):
