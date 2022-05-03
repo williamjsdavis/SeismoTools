@@ -44,7 +44,41 @@ class TestLoadSAC(unittest.TestCase):
         self.assertEqual(len(self.raw_data), 71832)
     def test_json_length(self):
         self.assertEqual(len(self.json_reference), 272570)
-class TestSAC2JSON(unittest.TestCase):
+class TestSAC2JSON_file1(unittest.TestCase):
+    def setUp(self):
+        self.filename_in = filename_sac1
+        self.filename_out = filename_sac1_json_output
+        self.filename_reference = filename_sac1_json_reference
+        
+        remove_file(self.filename_out)
+        self.raw_in = load_binary(self.filename_in)
+        st.SAC2JSON(self.filename_in, self.filename_out)
+        self.json_output = load_text(self.filename_out)
+        self.json_reference = load_text(self.filename_reference)
+    def tearDown(self):
+        remove_file(self.filename_out)
+    def test_any_change(self):
+        self.assertNotEqual(self.raw_in, self.json_output)
+    def test_correct_change(self):
+        self.assertEqual(self.json_output, self.json_reference)
+class TestSAC2JSON_file2(unittest.TestCase):
+    def setUp(self):
+        self.filename_in = filename_sac2
+        self.filename_out = filename_sac2_json_output
+        self.filename_reference = filename_sac2_json_reference
+        
+        remove_file(self.filename_out)
+        self.raw_in = load_binary(self.filename_in)
+        st.SAC2JSON(self.filename_in, self.filename_out)
+        self.json_output = load_text(self.filename_out)
+        self.json_reference = load_text(self.filename_reference)
+    def tearDown(self):
+        remove_file(self.filename_out)
+    def test_any_change(self):
+        self.assertNotEqual(self.raw_in, self.json_output)
+    def test_correct_change(self):
+        self.assertEqual(self.json_output, self.json_reference)
+class TestSAC2JSON_file3(unittest.TestCase):
     def setUp(self):
         self.filename_in = filename_sac3
         self.filename_out = filename_sac3_json_output
