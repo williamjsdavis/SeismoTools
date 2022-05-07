@@ -12,6 +12,14 @@ def SAC2JSON(filename_in, filename_out):
     with open(filename_out, 'w') as f:
         json.dump(data, f, indent=4)
         
+def SACMETA2JSON(filename_in, filename_out):
+    _, metadata_small = get_data(filename_in)
+    data = metadata_small
+    
+    #new_filename = filename + '.json'
+    with open(filename_out, 'w') as f:
+        json.dump(data, f, indent=4)
+        
 def SAC3JSON(filenames_in, filename_out):
     assert len(filenames_in) == 3
     body0, metadata0_small = get_data(filenames_in[0])
