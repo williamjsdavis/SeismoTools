@@ -3,8 +3,12 @@ import json
 def NDK2JSON_list(filename_in, i_range, filename_out):
     ndk_list = []
     for i in i_range:
-        ndk_data = make_ndk_data(filename_in, i)
-        ndk_list.append(ndk_data)
+        print(f"Event: {i}")
+        try:
+            ndk_data = make_ndk_data(filename_in, i)
+            ndk_list.append(ndk_data)
+        except:
+            pass
         
     # Convert to JSON
     #data_json = json.dumps(ndk_list, indent = 4)
